@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+import json
 
 def csv_to_dict(filename):
     relations = {}
@@ -12,13 +13,19 @@ def csv_to_dict(filename):
                 relations[row[0]].append(row[1])
     return relations
 
+def json_to_dict(filename):
+    with open(f'{filename}.json') as json_file:
+        data = json.load(json_file)
+  
+    return (data)
+
 def get_relations_matrix(relations,keys):
     relations_matrix = []
-    for user_a in keys:
+    for key_a in keys:
         relation = []
-        number_of_relations = len(relations[user_a])
-        for user_b in keys:
-            if (user_b in relations[user_a]):
+        number_of_relations = len(relations[key_a])
+        for key_b in keys:
+            if (key_b in relations[key_a]):
                 relation.append(1/number_of_relations)
             else:
                 relation.append(0)   
@@ -37,12 +44,15 @@ def page_rank(relations_matrix, number_of_nodes , iterations=85, alfa=0.85):
     return rank_vector
 
 def main():
-    relations = csv_to_dict("teste")
+    relations = json_to_dict('results2020')
     keys = list(relations.keys())
     number_of_nodes = len(keys)
-
     relations_matrix = get_relations_matrix(relations, keys)
     rank_vector = page_rank(relations_matrix,number_of_nodes,iterations=185)
-    print(rank_vector)
+    rank_vector_dict = dict(zip(keys,rank_vector))
+    rank_vector_dict_sorted = dict(sorted(rank_vector_dict.items(), key=lambda item: item[1]))
+
+    print(rank_vector_dict_sorted)
+    
 
 main()
