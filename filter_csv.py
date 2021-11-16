@@ -83,7 +83,6 @@ def main():
         get_teams_by_date(start_date,end_date,csv_reader)
     
     fixed_data = merge_results()
-    print(fixed_data)
-    #export_to_json("results2020",fixed_data)
+    export_to_json("results2020",fixed_data)
 main()    
     
