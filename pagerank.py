@@ -36,11 +36,11 @@ def get_relations_matrix(relations,keys):
 
 def page_rank(relations_matrix, number_of_nodes , iterations=85, alfa=0.85):
     one_matrix = np.ones((number_of_nodes,number_of_nodes))
-    normalized_vector = np.empty(number_of_nodes)
-    normalized_vector.fill(1/number_of_nodes)
+    initial_vector = np.empty(number_of_nodes)
+    initial_vector.fill(1/number_of_nodes)
     g_matrix = alfa*relations_matrix + ((1-alfa)/number_of_nodes)*one_matrix
     g_matrix_power = np.linalg.matrix_power(g_matrix,iterations)
-    rank_vector = g_matrix_power.dot(normalized_vector)
+    rank_vector = g_matrix_power.dot(initial_vector)
     return rank_vector
 
 def main():
